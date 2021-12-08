@@ -63,7 +63,7 @@ public class NBody {
             }
 
             for (int i = 0; i < n; i++) {
-                planets[i].update(time, xForces[i], yForces[i]);
+                planets[i].update(dt, xForces[i], yForces[i]);
             }
 
             StdDraw.picture(0, 0, "images/starfield.jpg");

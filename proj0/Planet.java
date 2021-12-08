@@ -3,12 +3,12 @@
  * @date 2021/12/8-21:50
  */
 public class Planet {
-    double xxPos;
-    double yyPos;
-    double xxVel;
-    double yyVel;
-    double mass;
-    String imgFileName;
+    public String imgFileName;
+    public double mass;
+    public double xxPos;
+    public double xxVel;
+    public double yyPos;
+    public double yyVel;
     static final double G = 6.67E-11;
 
     public Planet(double xP, double yP, double xV, double yV, double m, String img) {
