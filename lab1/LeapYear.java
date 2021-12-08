@@ -15,7 +15,6 @@ public class LeapYear {
     }
 
     /**
-     * 判断year是否为闰年
      * @param year to be analyzed
      * @return true or false
      */
