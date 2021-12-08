@@ -9,7 +9,7 @@ public class Planet {
     public double xxVel;
     public double yyPos;
     public double yyVel;
-    static final double G = 6.67E-11;
+    private static final double G = 6.67E-11;
 
     public Planet(double xP, double yP, double xV, double yV, double m, String img) {
         this.xxPos = xP;
