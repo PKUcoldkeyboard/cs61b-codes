@@ -16,6 +16,7 @@ public class DebugExercise1 {
         System.out.println("round(" + t + "/" + b + ")=" + result);
 
         int t2 = 9;
+        // test
         int b2 = 4;
         int result2 = divideThenRound(t2, b2);
         System.out.println("round(" + t2 + "/" + b2 + ")=" + result2);
