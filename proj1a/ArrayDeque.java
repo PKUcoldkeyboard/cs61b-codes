@@ -1,12 +1,17 @@
 import java.util.Arrays;
+import java.util.concurrent.ArrayBlockingQueue;
 
 /**
+ * 基于环形动态数组的ArrayDeque
+ *
  * @author cuterwrite
  * @date 2021/12/10-22:56
  */
 public class ArrayDeque<T> {
     private T[] array;
     private int size;
+    private int head;
+    private int tail;
 
     public ArrayDeque() {
         array = (T[]) new Object[8];
@@ -21,69 +26,110 @@ public class ArrayDeque<T> {
     }
 
     public void addFirst(T item) {
-        // 首先检查是否需要扩容或减容，执行对应操作
-        checkCapacity();
-        for (int i = size; i >= 1; i--) {
-            array[i] = array[i - 1];
+        if (size == array.length) {
+            int newSize = size + (size >> 1);
+            resize(size);
         }
-        array[0] = item;
+        // 左端加入元素，需要减head
+        head = minus(head);
+        array[head] = item;
+        if (isEmpty()) {
+            tail = head;
+        }
         size++;
     }
 
     public void addLast(T item) {
-        checkCapacity();
-        array[size] = item;
+        if (size == array.length) {
+            int newSize = size + (size >> 1);
+            resize(newSize);
+        }
+        tail = plus(tail);
+        array[tail] = item;
+        if (isEmpty()) {
+            head = tail;
+        }
         size++;
     }
 
     public T removeFirst() {
-        checkCapacity();
-        T item = get(0);
-        if (item == null) {
-            return null;
+        T item;
+        if (isEmpty()) {
+            item = null;
+        } else if (size == 1) {
+            item = array[head];
+            size--;
+        } else {
+            item = array[head];
+            head = plus(head);
+            size--;
+            if (size * 4 < array.length) {
+                resize(size * 2);
+            }
         }
-        for (int i = 0; i < size - 1; i++) {
-            array[i] = array[i + 1];
-        }
-        array[size - 1] = null;
-        size--;
         return item;
     }
 
     public T removeLast() {
-        checkCapacity();
-        T item = get(size - 1);
-        if (item == null) {
-            // 不用减size
-            return null;
+        T item;
+        if (isEmpty()) {
+            item = null;
+        } else if (size == 1) {
+            item = array[tail];
+            size--;
+        } else {
+            item = array[tail];
+            tail = minus(tail);
+            size--;
+            if (size * 4 < array.length) {
+                resize(size * 2);
+            }
         }
-        array[size - 1] = null;
-        size--;
         return item;
     }
 
     public T get(int index) {
-        if (index < 0 || index >= size) {
+        if (index >= size) {
             return null;
         }
-        return array[index];
+        int j = head;
+        for (int i = 0; i < index; i++) {
+            j = plus(j);
+        }
+        return array[j];
     }
 
     public void printDeque() {
-
+        int j = head;
+        for (int i = 0; i < size; i++) {
+            System.out.print(array[j] + " ");
+            j = plus(j);
+        }
+        System.out.println();
     }
 
     private void resize(int newSize) {
-        array = Arrays.copyOf(array, newSize);
+        T[] temp = (T[]) new Object[newSize];
+        int j = head;
+        for (int i = 0; i < size; i++) {
+            temp[i] = array[j];
+            j = plus(j);
+        }
+        array = temp;
+        head = 0;
+        tail = size - 1;
     }
 
-    private void checkCapacity() {
-        if (array.length - 1 == size) {
-            int newSize = size + (size >> 1);
-            resize(newSize);
-        } else if (array.length > 8 && array.length > 4 * size) {
-            int newSize = Math.min(8, size / 2);
-            resize(newSize);
+    // 环形数组下标变换公式
+    private int plus(int index) {
+        return (index + 1) % array.length;
+    }
+
+    private int minus(int index) {
+        index--;
+        if (index == -1) {
+            return array.length - 1;
         }
+        return index;
     }
 }
