@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
@@ -11,15 +10,6 @@ public class ArrayDeque<T> {
 
     public ArrayDeque() {
         array = (T[]) new Object[8];
-    }
-
-    public ArrayDeque(ArrayDeque other) {
-        Object[] a = other.array;
-        if ((size = a.length) != 0) {
-            array = (T[]) a;
-        } else {
-            array = (T[]) new Object[8];
-        }
     }
 
     public boolean isEmpty() {
@@ -56,18 +46,18 @@ public class ArrayDeque<T> {
         for (int i = 0; i < size - 1; i++) {
             array[i] = array[i + 1];
         }
-        array[size--] = null;
+        array[--size] = null;
         return item;
     }
 
     public T removeLast() {
-        T item = array[size];
-        array[size--] = null;
+        T item = array[size - 1];
+        array[--size] = null;
         return item;
     }
 
     public T get(int index) {
-        if (index >= size) {
+        if (index < 0 || index >= size) {
             return null;
         }
         return array[index];
