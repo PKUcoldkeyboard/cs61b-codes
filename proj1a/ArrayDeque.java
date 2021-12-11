@@ -1,5 +1,3 @@
-import java.util.Arrays;
-
 /**
  * 基于环形动态数组的ArrayDeque
  *
