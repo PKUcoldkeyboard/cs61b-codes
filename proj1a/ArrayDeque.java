@@ -7,9 +7,12 @@ import java.util.Arrays;
 public class ArrayDeque<T> {
     private T[] array;
     private int size;
+    private int head;
+    private int end;
 
     public ArrayDeque() {
         array = (T[]) new Object[8];
+        head = end = 4;
     }
 
     public boolean isEmpty() {
@@ -21,38 +24,44 @@ public class ArrayDeque<T> {
     }
 
     public void addFirst(T item) {
-        if (array.length == size) {
-            int newSize = size + (size >> 1);
-            resize(newSize);
-        }
-        for (int i = size; i >= 1; i--) {
-            array[i] = array[i - 1];
-        }
-        array[0] = item;
-        size++;
-    }
-
-    public void addLast(T item) {
-        if (array.length == size) {
+        if (array.length - 1 == size) {
             // 进行扩容
             int newSize = size + (size >> 1);
             resize(newSize);
         }
-        array[size++] = item;
+        array[--head] = item;
+        size++;
+    }
+
+    public void addLast(T item) {
+        if (array.length - 1 == size) {
+            // 进行扩容
+            int newSize = size + (size >> 1);
+            resize(newSize);
+        }
+        array[++end] = item;
+        size++;
     }
 
     public T removeFirst() {
-        T item = array[0];
-        for (int i = 0; i < size - 1; i++) {
-            array[i] = array[i + 1];
+        if (size == 0) {
+            return null;
         }
-        array[--size] = null;
+        T item = array[head];
+        array[head++] = null;
+        checkUsage();
+        size--;
         return item;
     }
 
     public T removeLast() {
-        T item = array[size - 1];
-        array[--size] = null;
+        if (size == 0) {
+            return null;
+        }
+        T item = array[end];
+        array[end--] = null;
+        checkUsage();
+        size--;
         return item;
     }
 
@@ -64,15 +73,19 @@ public class ArrayDeque<T> {
     }
 
     public void printDeque() {
-        for (T item : array) {
-            if (item != null) {
-                System.out.print(item.toString() + " ");
-            }
+        for (int i = head; i <= end; i++) {
+            System.out.print(array[i].toString() + " ");
         }
         System.out.println();
     }
 
     private void resize(int newSize) {
         array = Arrays.copyOf(array, newSize);
+    }
+
+    private void checkUsage() {
+        if (array.length > 4 * size) {
+            resize(size / 2);
+        }
     }
 }

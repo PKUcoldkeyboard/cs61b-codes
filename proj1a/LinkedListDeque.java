@@ -64,22 +64,22 @@ public class LinkedListDeque<T> {
     }
 
     public T removeFirst() {
-        if (head == null) {
+        if (size == 0) {
             return null;
         }
         T item = head.item;
         head = head.next;
-        size--;
+        head.prev = null;
         return item;
     }
 
     public T removeLast() {
-        if (end == null) {
+        if (size == 0) {
             return null;
         }
         T item = end.item;
         end = end.prev;
-        size--;
+        end.next = null;
         return item;
     }
 
