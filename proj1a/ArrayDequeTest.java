@@ -1,4 +1,4 @@
-import junit.framework.TestCase;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -6,9 +6,9 @@ import java.util.Random;
 
 /**
  * @author cuterwrite
- * @date 2021/12/11-17:18
+ * @created 2021/12/11-17:18
  */
-public class ArrayDequeTest extends TestCase {
+public class ArrayDequeTest {
 
     private Random random;
 
@@ -27,7 +27,7 @@ public class ArrayDequeTest extends TestCase {
             list.addLast(next);
         }
         for (int i = 0; i < 100; i++) {
-            assertEquals(Integer.valueOf(testCases[i]), list.get(i));
+            Assert.assertEquals(Integer.valueOf(testCases[i]), list.get(i));
         }
     }
 
@@ -36,52 +36,52 @@ public class ArrayDequeTest extends TestCase {
         ArrayDeque<Integer> list = new ArrayDeque<>();
         for (int i = 0; i < 100; i++) {
             list.addFirst(random.nextInt());
-            assertEquals(i + 1, list.size());
+            Assert.assertEquals(i + 1, list.size());
         }
         for (int i = 100; i < 200; i++) {
             list.addLast(random.nextInt());
-            assertEquals(i + 1, list.size());
+            Assert.assertEquals(i + 1, list.size());
         }
     }
 
     @Test
     public void testAddFirstRemoveFirstIsEmpty() {
         ArrayDeque<Integer> list = new ArrayDeque<>();
-        assertEquals(true, list.isEmpty());
+        Assert.assertTrue(list.isEmpty());
         list.addFirst(10);
-        assertEquals(false, list.isEmpty());
+        Assert.assertFalse(list.isEmpty());
         list.removeFirst();
-        assertEquals(true, list.isEmpty());
+        Assert.assertTrue(list.isEmpty());
     }
 
     @Test
     public void testAddFirstRemoveLastIsEmpty() {
         ArrayDeque<Integer> list = new ArrayDeque<>();
-        assertEquals(true, list.isEmpty());
+        Assert.assertTrue(list.isEmpty());
         list.addFirst(10);
-        assertEquals(false, list.isEmpty());
+        Assert.assertFalse(list.isEmpty());
         list.removeLast();
-        assertEquals(true, list.isEmpty());
+        Assert.assertTrue(list.isEmpty());
     }
 
     @Test
     public void testAddLastRemoveFirstIsEmpty() {
         ArrayDeque<Integer> list = new ArrayDeque<>();
-        assertEquals(true, list.isEmpty());
+        Assert.assertTrue(list.isEmpty());
         list.addLast(10);
-        assertEquals(false, list.isEmpty());
+        Assert.assertFalse(list.isEmpty());
         list.removeFirst();
-        assertEquals(true, list.isEmpty());
+        Assert.assertTrue(list.isEmpty());
     }
 
     @Test
     public void testAddLastRemoveLastIsEmpty() {
         ArrayDeque<Integer> list = new ArrayDeque<>();
-        assertEquals(true, list.isEmpty());
+        Assert.assertTrue(list.isEmpty());
         list.addLast(10);
-        assertEquals(false, list.isEmpty());
+        Assert.assertFalse(list.isEmpty());
         list.removeLast();
-        assertEquals(true, list.isEmpty());
+        Assert.assertTrue(list.isEmpty());
     }
 
 }
