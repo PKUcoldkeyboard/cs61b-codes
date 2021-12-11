@@ -21,29 +21,28 @@ public class LinkedListDeque<T> {
 
     public LinkedListDeque() {
         head = end = null;
-        size = 0;
     }
 
     public void addFirst(T item) {
-        if (size == 0) {
+        if (isEmpty()) {
             head = end = new Node(item, null, null);
-            size += 1;
+            size++;
             return;
         }
         head.prev = new Node(item, null, head);
         head = head.prev;
-        size += 1;
+        size++;
     }
 
     public void addLast(T item) {
-        if (size == 0) {
+        if (isEmpty()) {
             head = end = new Node(item, null, null);
-            size += 1;
+            size++;
             return;
         }
         end.next = new Node(item, end, null);
         end = end.next;
-        size += 1;
+        size++;
     }
 
     public boolean isEmpty() {
@@ -64,12 +63,13 @@ public class LinkedListDeque<T> {
     }
 
     public T removeFirst() {
-        if (size == 0) {
+        if (isEmpty()) {
             return null;
         }
         T item = head.item;
         head = head.next;
         head.prev = null;
+        size--;
         return item;
     }
 
@@ -80,6 +80,7 @@ public class LinkedListDeque<T> {
         T item = end.item;
         end = end.prev;
         end.next = null;
+        size--;
         return item;
     }
 
