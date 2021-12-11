@@ -7,12 +7,9 @@ import java.util.Arrays;
 public class ArrayDeque<T> {
     private T[] array;
     private int size;
-    private int head;
-    private int end;
 
     public ArrayDeque() {
         array = (T[]) new Object[8];
-        head = end = 4;
     }
 
     public boolean isEmpty() {
@@ -24,43 +21,43 @@ public class ArrayDeque<T> {
     }
 
     public void addFirst(T item) {
-        if (array.length - 1 == size) {
-            // 进行扩容
-            int newSize = size + (size >> 1);
-            resize(newSize);
+        // 首先检查是否需要扩容或减容，执行对应操作
+        checkCapacity();
+        for (int i = size; i >= 1; i--) {
+            array[i] = array[i - 1];
         }
-        array[--head] = item;
+        array[0] = item;
         size++;
     }
 
     public void addLast(T item) {
-        if (array.length - 1 == size) {
-            // 进行扩容
-            int newSize = size + (size >> 1);
-            resize(newSize);
-        }
-        array[++end] = item;
+        checkCapacity();
+        array[size] = item;
         size++;
     }
 
     public T removeFirst() {
-        if (size == 0) {
+        checkCapacity();
+        T item = get(0);
+        if (item == null) {
             return null;
         }
-        T item = array[head];
-        array[head++] = null;
-        checkUsage();
+        for (int i = 0; i < size - 1; i++) {
+            array[i] = array[i + 1];
+        }
+        array[size - 1] = null;
         size--;
         return item;
     }
 
     public T removeLast() {
-        if (size == 0) {
+        checkCapacity();
+        T item = get(size - 1);
+        if (item == null) {
+            // 不用减size
             return null;
         }
-        T item = array[end];
-        array[end--] = null;
-        checkUsage();
+        array[size - 1] = null;
         size--;
         return item;
     }
@@ -73,19 +70,20 @@ public class ArrayDeque<T> {
     }
 
     public void printDeque() {
-        for (int i = head; i <= end; i++) {
-            System.out.print(array[i].toString() + " ");
-        }
-        System.out.println();
+
     }
 
     private void resize(int newSize) {
         array = Arrays.copyOf(array, newSize);
     }
 
-    private void checkUsage() {
-        if (array.length > 4 * size) {
-            resize(size / 2);
+    private void checkCapacity() {
+        if (array.length - 1 == size) {
+            int newSize = size + (size >> 1);
+            resize(newSize);
+        } else if (array.length > 8 && array.length > 4 * size) {
+            int newSize = Math.min(8, size / 2);
+            resize(newSize);
         }
     }
 }
