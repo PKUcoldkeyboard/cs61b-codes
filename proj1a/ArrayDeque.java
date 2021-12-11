@@ -1,5 +1,4 @@
 import java.util.Arrays;
-import java.util.concurrent.ArrayBlockingQueue;
 
 /**
  * 基于环形动态数组的ArrayDeque
@@ -27,8 +26,7 @@ public class ArrayDeque<T> {
 
     public void addFirst(T item) {
         if (size == array.length) {
-            int newSize = size + (size >> 1);
-            resize(size);
+            resize(2 * size);
         }
         // 左端加入元素，需要减head
         head = minus(head);
@@ -41,8 +39,7 @@ public class ArrayDeque<T> {
 
     public void addLast(T item) {
         if (size == array.length) {
-            int newSize = size + (size >> 1);
-            resize(newSize);
+            resize(2 * size);
         }
         tail = plus(tail);
         array[tail] = item;
@@ -63,7 +60,7 @@ public class ArrayDeque<T> {
             item = array[head];
             head = plus(head);
             size--;
-            if (size * 4 < array.length) {
+            if (size * 4 == array.length) {
                 resize(size * 2);
             }
         }
