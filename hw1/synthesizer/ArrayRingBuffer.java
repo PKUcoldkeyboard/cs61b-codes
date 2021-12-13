@@ -20,6 +20,7 @@ public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> {
 
     private class BufferIterator implements Iterator<T> {
         private int ptr;
+        private int curSum;
 
         public BufferIterator() {
             ptr = first;
@@ -27,12 +28,13 @@ public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> {
 
         @Override
         public boolean hasNext() {
-            return ptr != fillCount;
+            return curSum < fillCount;
         }
 
         @Override
         public T next() {
             ptr = plus(ptr);
+            curSum++;
             return rb[ptr];
         }
     }
