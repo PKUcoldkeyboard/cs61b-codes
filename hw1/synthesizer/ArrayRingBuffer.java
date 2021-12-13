@@ -48,6 +48,9 @@ public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> {
         }
         last = plus(last);
         rb[last] = x;
+        if (isEmpty()) {
+            first = last;
+        }
         fillCount++;
     }
 

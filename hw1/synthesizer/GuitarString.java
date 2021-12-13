@@ -32,14 +32,11 @@ public class GuitarString {
      * the Karplus-Strong algorithm.
      */
     public void tic() {
-        double front = buffer.dequeue();
-        double next = buffer.peek();
-        buffer.enqueue(front * next * DECAY / 2.0);
+        buffer.enqueue((buffer.dequeue() + buffer.peek()) * DECAY / 2.0);
     }
 
     /* Return the double at the front of the buffer. */
     public double sample() {
-        // TODO: Return the correct thing.
         return buffer.peek();
     }
 }
