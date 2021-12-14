@@ -33,9 +33,10 @@ public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> {
 
         @Override
         public T next() {
+            T item = rb[ptr];
             ptr = plus(ptr);
             curSum++;
-            return rb[ptr];
+            return item;
         }
     }
 
