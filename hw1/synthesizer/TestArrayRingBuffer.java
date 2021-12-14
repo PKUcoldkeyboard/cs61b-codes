@@ -15,6 +15,7 @@ public class TestArrayRingBuffer {
     @Test
     public void someTest() {
         ArrayRingBuffer arb = new ArrayRingBuffer(10);
+        System.out.println(arb.peek());
         arb.enqueue(1);
         assertEquals(Integer.valueOf(1), arb.peek());
         arb.enqueue(2);
